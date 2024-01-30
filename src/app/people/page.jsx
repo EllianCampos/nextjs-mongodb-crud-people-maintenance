@@ -1,18 +1,16 @@
-'use client'
-
+import { connectDB } from "@/libs/mongodb";
+import User from '@/models/user'
 import PersonCard from '@/components/PersonCard'
-import { useEffect, useState } from 'react'
 
+export const dynamic = 'force-dynamic'
 
-export default function PeoplePage() {
+async function getPeople() {
+	await connectDB()
+	return User.find()
+}
 
-	const [people, setPeople] = useState([])
-
-	useEffect(() => {
-		fetch('/api/people')
-		.then(res => res.json())
-		.then(data => setPeople(data))
-	}, [])
+export default async function PeoplePage() {
+	const people = await getPeople()	
 
 	return (
 		<section className='d-flex justify-content-start flex-wrap'>

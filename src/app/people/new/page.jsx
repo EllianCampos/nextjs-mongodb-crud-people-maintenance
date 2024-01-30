@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
-export default function NewPersonPage({ params }) {
+export default function NewPersonPage({ params }) { 
 	const router = useRouter()
 
 	const [name, setName] = useState("")
