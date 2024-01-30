@@ -13,11 +13,13 @@ export default function NewPersonPage({ params }) {
 
 	useEffect(() => {
 		const getPerson = async () => {
-			const res = await fetch(`/api/people/${params.id}`)
-			const person = await res.json()
-			setName(person.name)
-			setLastname(person.lastname)
-			setAge(person.age)
+			fetch(`/api/people/${params.id}`)
+			.then(res => res.json())
+			.then(person => {
+				setName(person.name)
+				setLastname(person.lastname)
+				setAge(person.age)
+			})			
 		}
 
 		if (params.id) {
@@ -26,35 +28,42 @@ export default function NewPersonPage({ params }) {
 	}, [])
 
 
-	const handleSubmit = async (event) => {
+	const handleSubmit = (event) => {
 		event.preventDefault()
 
 		if (params.id) {
-			await fetch(`/api/people/${params.id}`, {
+			fetch(`/api/people/${params.id}`, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({ name, lastname, age: Number(age) })
 			})
+			.then(res => {
+				router.push('/people')
+				router.refresh()
+			})
 		} else {
-			await fetch('/api/people', {
+			fetch('/api/people', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({ name, lastname, age: Number(age) })
 			})
+			.then(res => {
+				router.push('/people')
+				router.refresh()
+			})
 		}
-
-		router.push('/people')
-		router.refresh()
 	}
 
-	const handleDelete = async () => {
-		await fetch(`/api/people/${params.id}`, { method: 'DELETE' })
-		router.push('/people')
-		router.refresh()
+	const handleDelete = () => {
+		fetch(`/api/people/${params.id}`, { method: 'DELETE' })
+		.then(res => {
+			router.push('/people')
+			router.refresh()
+		})		
 	}
 
 	return (
