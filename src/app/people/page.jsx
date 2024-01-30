@@ -1,14 +1,18 @@
-import { connectDB } from "@/libs/mongodb";
-import User from '@/models/user'
+'use client'
+
 import PersonCard from '@/components/PersonCard'
+import { useEffect, useState } from 'react'
 
-async function getPeople() {
-	await connectDB()
-	return User.find()
-}
 
-export default async function PeoplePage() {
-	const people = await getPeople()	
+export default function PeoplePage() {
+
+	const [people, setPeople] = useState([])
+
+	useEffect(() => {
+		fetch('/api/people')
+		.then(res => res.json())
+		.then(data => setPeople(data))
+	}, [])
 
 	return (
 		<section className='d-flex justify-content-start flex-wrap'>
