@@ -1,5 +1,6 @@
-import Navbar from "@/components/Navbar";
 import "./globals.css";
+import Bootstrap from "@/components/Bootstrap";
+import Navbar from "@/components/Navbar";
 
 export const metadata = {
   title: "CRUD Personas",
@@ -12,6 +13,7 @@ export default function RootLayout({ children }) {
       <body>
         <Navbar />
         {children}
+        <Bootstrap />
       </body>
     </html>
   );
